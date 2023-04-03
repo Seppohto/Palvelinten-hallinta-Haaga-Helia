@@ -1,6 +1,6 @@
 Tein harjoituksen Maanantain 3.4.2023 HP Elitebook läppärillä kotonani.
 
-Asensin koneelle Vagrantin ja Virtualboxin [tehtävänannon ohjeilla] (https://terokarvinen.com/2023/palvelinten-hallinta-2023-kevat/)
+Asensin koneelle Vagrantin ja Virtualboxin [tehtävänannon ohjeilla](https://terokarvinen.com/2023/palvelinten-hallinta-2023-kevat/)
 
 Käynnistin koneet Vagrant up komennolla PowerShellissä ja n. 20 min päästä totesin ettei se vielä toiminut, koska vagrant up komento jumahti toisen koneen kohtaan t002: Unpacking python3-croniter (0.3.34-3) ...
 
