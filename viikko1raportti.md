@@ -88,6 +88,7 @@ sudo salt '*' state.single user.absent olli
 
 
 ## Create IaC
+file that describes the outcome
 ``` 
 sudo mkdir -p /srv/salt/hello
 sudoedit /srv/salt/hello/init.sls
@@ -96,7 +97,7 @@ sudoedit /srv/salt/hello/init.sls
   file.managed
 
 sudo salt '*' state.apply hello  
- 
+ ```
 
 and a top.sls to control what files are ran
 ```
@@ -110,4 +111,4 @@ sudo salt '*' state.apply
 # Last DESTROY
 exit
 and
-vagrant destroy because cattle not pets.
+vagrant destroy because: cattle not pets.
