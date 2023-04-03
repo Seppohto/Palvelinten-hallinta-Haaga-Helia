@@ -73,4 +73,41 @@ sudo salt '*' state.single service.running apache2
 #testaus
 sudo apt-get -y install curl
 curl -s 192.168.12.102|grep title
+#sammutus
+sudo salt '*' state.single service.dead apache2
 ``` 
+
+We can control users too 
+``` 
+sudo salt '*' state.single user.present olli
+#edit
+sudo salt '*' state.single user.present terote01 shell="/bin/bash"
+#confirm
+sudo salt '*' state.single user.absent olli
+``` 
+
+
+## Create IaC
+``` 
+sudo mkdir -p /srv/salt/hello
+sudoedit /srv/salt/hello/init.sls
+
+/tmp/infra-as-code:
+  file.managed
+
+sudo salt '*' state.apply hello  
+ 
+
+and a top.sls to control what files are ran
+```
+sudoedit /srv/salt/top.sls
+base:
+  '*':
+    - hello
+sudo salt '*' state.apply
+```
+
+# Last DESTROY
+exit
+and
+vagrant destroy because cattle not pets.
