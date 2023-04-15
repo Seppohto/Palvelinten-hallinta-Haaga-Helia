@@ -81,3 +81,7 @@ Date:   Sat Apr 15 07:48:10 2023 +0300
 
     Initial commit7
 ```
+
+
+# Lähteet
+Karvinen, Tero, Infra as Code course, Palvelinten Hallinta 2023 kevät https://terokarvinen.com/2023/palvelinten-hallinta-2023-kevat/
