@@ -1,0 +1,230 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "swedencentral"
+        },
+        "rg": {
+            "value": {
+                "name": "rg-salt-test-01",
+                "tags": {
+                    "owner": "olli.uronen@gmail.fi"
+                }
+            }
+        },
+        "winservers":{
+            "value": [
+                    {
+                      "vmAdminUsername": "olli-admin",
+                      "vmName": "winminion",
+                      "vmSize": "Standard_B2s",
+                      "ImagePublisher": "MicrosoftWindowsServer",
+                      "ImageOffer": "WindowsServer",
+                      "ImageSku": "2019-Datacenter",
+                      "vmImageVersion": "latest",
+                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetName": "myVNet",
+                      "subnetName": "mySubnet",
+                      "diskSizeGB": 128,
+                      "osDiskType": "StandardSSD_LRS",
+                      "vmExtension_CustomScriptExtension_fileUris": [
+                        "https://olli.blob.core.windows.net/olli/windows_minion_install_salt.ps1"
+                        ],
+                      "vmExtension_CustomScriptExtension_commandToExecute": "powershell -ExecutionPolicy Unrestricted -File windows_minion_install_salt.ps1",
+                      "vmExtension_CustomScriptExtension_deploy": true,
+                      "deploypublicIpAddress": true
+                    },
+                    {
+                      "vmAdminUsername": "olli-admin",
+                      "vmName": "winmaster",
+                      "vmSize": "Standard_B2s",
+                      "ImagePublisher": "MicrosoftWindowsServer",
+                      "ImageOffer": "WindowsServer",
+                      "ImageSku": "2019-Datacenter",
+                      "vmImageVersion": "latest",
+                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetName": "myVNet",
+                      "subnetName": "mySubnet",
+                      "diskSizeGB": 128,
+                      "osDiskType": "StandardSSD_LRS",
+                      "vmExtension_CustomScriptExtension_fileUris": [
+                        "https://olli.blob.core.windows.net/olli/windows_master_install_salt.ps1"
+                        ],
+                      "vmExtension_CustomScriptExtension_commandToExecute": "powershell -ExecutionPolicy Unrestricted -File windows_master_install_salt.ps1",
+                      "vmExtension_CustomScriptExtension_deploy": true,
+                      "deploypublicIpAddress": true
+                    }
+              ]
+        },
+        "linuxservers":{
+            "value": [
+                    {
+                      "vmAdminUsername": "olli-admin",
+                      "vmName": "ubuntumaster",
+                      "vmSize": "Standard_B2s",
+                      "ImagePublisher": "Canonical",
+                      "ImageOffer": "UbuntuServer",
+                      "ImageSku": "18_04-lts-gen2",
+                      "vmImageVersion": "latest",
+                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetName": "myVNet",
+                      "subnetName": "mySubnet",
+                      "diskSizeGB": 128,
+                      "osDiskType": "StandardSSD_LRS",
+                      "deploypublicIpAddress": true,
+                      "vmExtension_CustomScript_deploy": true,
+                      "vmExtension_CustomScript_commandToExecute": "sh ubuntumaster.sh",
+                      "vmExtension_CustomScript_fileUris": [
+                        "https://olli.blob.core.windows.net/olli/ubuntumaster.sh"
+                        ]
+                    },
+                    {
+                      "vmAdminUsername": "olli-admin",
+                      "vmName": "ubuntuminion",
+                      "vmSize": "Standard_B2s",
+                      "ImagePublisher": "canonical",
+                      "ImageOffer": "0001-com-ubuntu-server-focal",
+                      "ImageSku": "20_04-lts-gen2",
+                      "vmImageVersion": "latest",
+                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetName": "myVNet",
+                      "subnetName": "mySubnet",
+                      "diskSizeGB": 128,
+                      "osDiskType": "StandardSSD_LRS",
+                      "deploypublicIpAddress": true,
+                      "vmExtension_CustomScript_deploy": true,
+                      "vmExtension_CustomScript_commandToExecute": "sh ubuntuminion.sh",
+                      "vmExtension_CustomScript_fileUris": [
+                        "https://olli.blob.core.windows.net/olli/ubuntuminion.sh"
+                        ]
+                    }
+              ]
+        },
+        "vnets":{
+          "value": [
+            {
+              "vnetName": "myVNet",
+              "vnetIpAdressRanges": [
+                "10.0.0.0/16"
+              ],
+              "subnetObjectsArray": [
+                {
+                  "name": "mySubnet",
+                  "properties": {
+                    "addressPrefix": "10.0.0.0/24",
+                    "networkSecurityGroup": {
+                      "deploy": true,
+                      "location": "swedencentral",
+                      "nsgSecurityRulesArray": [
+                        {
+                          "name": "allow-http",
+                          "properties": {
+                            "priority": 100,
+                            "direction": "Inbound",
+                            "access": "Allow",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*"
+                          }
+                        },
+                        {
+                          "name": "allow-ssh",
+                          "properties": {
+                            "priority": 110,
+                            "direction": "Inbound",
+                            "access": "Allow",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*"
+                          }
+                        },
+                        {
+                          "name": "allow-https",
+                          "properties": {
+                            "priority": 120,
+                            "direction": "Inbound",
+                            "access": "Allow",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*"
+                          }
+                        },
+                        {
+                          "name": "allow-rdp",
+                          "properties": {
+                            "priority": 130,
+                            "direction": "Inbound",
+                            "access": "Allow",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*"
+                          }
+                        },
+                        {
+                          "name": "allow-icmp",
+                          "properties": {
+                            "priority": 140,
+                            "direction": "Inbound",
+                            "access": "Allow",
+                            "protocol": "Icmp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*"
+                          }
+                        },
+                        {
+                          "name": "allow-salt",
+                          "properties": {
+                            "priority": 150,
+                            "direction": "Inbound",
+                            "access": "Allow",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "4505-4506",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*"
+                          }
+                        }
+                      ],
+                      "tags": {
+                        "displayName": "mySubnet-NetworkSecurityGroup"
+                      }
+                    },
+                    "routeTable": {
+                      "deploy": false,
+                      "location": "swedencentral",
+                      "properties": {
+                        "routes": [
+                          {
+                            "name": "route1",
+                            "properties": {
+                              "addressPrefix": "10.1.0.0/16",
+                              "nextHopType": "VirtualAppliance",
+                              "nextHopIpAddress": "10.1.1.1"
+                            }
+                          }
+                        ]
+                      },
+                      "tags": {
+                        "displayName": "mySubnet-RouteTable"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+    }
+  }
+  

@@ -1,0 +1,1 @@
+az deployment sub create -n salttestenv -l swedencentral --template-file main.bicep --parameters main.json .secure.main.json
