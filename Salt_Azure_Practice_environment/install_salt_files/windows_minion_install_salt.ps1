@@ -2,7 +2,7 @@
 $url = "https://repo.saltproject.io/salt/py3/windows/latest/Salt-Minion-3006.0-Py3-AMD64-Setup.exe"
 $output = "C:\Temp\Salt-Minion-3006.0-Py3-AMD64-Setup.exe"
 $saltMaster = "ubuntumaster.swedencentral.cloudapp.azure.com"
-$minionName = "minion1"
+$minionName = "winminion-$env:COMPUTERNAME"
 
 # Create Temp directory if it doesn't exist
 if (-not (Test-Path -Path "C:\Temp")) {

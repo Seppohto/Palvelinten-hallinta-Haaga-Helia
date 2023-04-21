@@ -1,16 +1,5 @@
 base:
   'ubuntu*':
-    - helloubuntu
-  'win*:
-    - hellowin
-
-
-
-
-
-
-
-
-
-
-
+    - ubuntu
+  'min*':
+    - win
