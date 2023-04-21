@@ -9,7 +9,7 @@ param SSH_publicKey string = ''
 param vnets array
 
 module resourceGroupSalt 'modules/resourcegroup/rg.bicep' = [ for (rg, index) in rg: {
-  name: 'rg-salt-test-01'
+  name: '${rg.name}-${index}'
   params: {
     name: rg.name
     location: rg.location
@@ -18,8 +18,8 @@ module resourceGroupSalt 'modules/resourcegroup/rg.bicep' = [ for (rg, index) in
 }]
 
 module vnet 'modules/vnets/vnet.bicep' = [ for (vnet, index) in vnets: {
-  name: 'vnet-${index}'
-  scope: resourceGroup(vnet.rgName)
+  name: '${vnet.vnetName}-${index}'
+  scope: resourceGroup(vnet.resourceGroupName)
   params: {
     vnetName: vnet.vnetName
     location: vnet.location
@@ -32,8 +32,8 @@ module vnet 'modules/vnets/vnet.bicep' = [ for (vnet, index) in vnets: {
 }]
 
 module vmServerWindows 'modules/virtualmachine/vm-windows.bicep' = [ for (server, index) in winservers: {
-  name: 'vm-windows-${index}'
-  scope: resourceGroup(server.rgName)
+  name: 'vm-windows-${server.vmName}-${index}'
+  scope: resourceGroup(server.resourceGroupName)
   params: {
     deploypublicIpAddress : server.deploypublicIpAddress
     vmAdminUsername : server.vmAdminUsername 
@@ -61,8 +61,8 @@ module vmServerWindows 'modules/virtualmachine/vm-windows.bicep' = [ for (server
 }]
 
 module vmServerlinux 'modules/virtualmachine/vm-linux.bicep' = [ for (server, index) in linuxservers: {
-  name: 'vm-linux-${index}'
-  scope: resourceGroup(server.rgName)
+  name: 'vm-linux-${server.vmName}-${index}'
+  scope: resourceGroup(server.resourceGroupName)
   params: {
     deploypublicIpAddress : server.deploypublicIpAddress
     vmAdminUsername : server.vmAdminUsername 

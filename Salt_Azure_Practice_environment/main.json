@@ -5,14 +5,14 @@
         "rg": {
             "value": [
               {
-                "name": "rg-salt-test-01",
+                "name": "rg-salt-test-sce-01",
                 "location": "swedencentral",
                 "tags": {
                     "owner": "olli.uronen@gmail.fi"
                 }
               },
               {
-                "name": "rg-salt-test-02",
+                "name": "rg-salt-test-weu-01",
                 "location": "westeurope",
                 "tags": {
                     "owner": "olli.uronen@gmail.fi"
@@ -23,15 +23,16 @@
         "winservers":{
             "value": [
                     {
-                      "vmAdminUsername": "olli-admin",
-                      "location": "swedencentral",
                       "vmName": "winminion001",
+                      "vmAdminUsername": "olli-admin",
+                      "resourceGroupName": "rg-salt-test-sce-01",
+                      "location": "swedencentral",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "MicrosoftWindowsServer",
                       "ImageOffer": "WindowsServer",
                       "ImageSku": "2019-Datacenter",
                       "vmImageVersion": "latest",
-                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetResourceGroupName": "rg-salt-test-sce-01",
                       "vnetName": "myVNet",
                       "subnetName": "mySubnet",
                       "diskSizeGB": 128,
@@ -44,15 +45,16 @@
                       "deploypublicIpAddress": true
                     },
                     {
+                      "vmName": "winminion002",
+                      "resourceGroupName": "rg-salt-test-weu-01",
                       "vmAdminUsername": "olli-admin",
                       "location": "westeurope",
-                      "vmName": "winminion002",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "MicrosoftWindowsServer",
                       "ImageOffer": "WindowsServer",
                       "ImageSku": "2019-Datacenter",
                       "vmImageVersion": "latest",
-                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetResourceGroupName": "rg-salt-test-weu-01",
                       "vnetName": "myisolatedVNet",
                       "subnetName": "mySubnet",
                       "diskSizeGB": 128,
@@ -62,22 +64,23 @@
                         ],
                       "vmExtension_CustomScriptExtension_commandToExecute": "powershell -ExecutionPolicy Unrestricted -File windows_minion_install_salt.ps1",
                       "vmExtension_CustomScriptExtension_deploy": true,
-                      "deploypublicIpAddress": true
+                      "deploypublicIpAddress": false
                     }
               ]
         },
         "linuxservers":{
             "value": [
                     {
+                      "vmName": "ubuntumaster",
+                      "resourceGroupName": "rg-salt-test-sce-01",
                       "vmAdminUsername": "olli-admin",
                       "location": "swedencentral",
-                      "vmName": "ubuntumaster",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "Canonical",
                       "ImageOffer": "UbuntuServer",
                       "ImageSku": "18_04-lts-gen2",
                       "vmImageVersion": "latest",
-                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetResourceGroupName": "rg-salt-test-sce-01",
                       "vnetName": "myVNet",
                       "subnetName": "mySubnet",
                       "diskSizeGB": 128,
@@ -90,15 +93,16 @@
                         ]
                     },
                     {
+                      "vmName": "ubuntuminion",
+                      "resourceGroupName": "rg-salt-test-sce-01",
                       "vmAdminUsername": "olli-admin",
                       "location": "swedencentral",
-                      "vmName": "ubuntuminion",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "canonical",
                       "ImageOffer": "0001-com-ubuntu-server-focal",
                       "ImageSku": "20_04-lts-gen2",
                       "vmImageVersion": "latest",
-                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetResourceGroupName": "rg-salt-test-sce-01",
                       "vnetName": "myVNet",
                       "subnetName": "mySubnet",
                       "diskSizeGB": 128,
@@ -111,20 +115,21 @@
                         ]
                     },
                     {
+                      "vmName": "ubuntuminionisolated",
+                      "resourceGroupName": "rg-salt-test-weu-01",
                       "vmAdminUsername": "olli-admin",
                       "location": "westeurope",
-                      "vmName": "ubuntuminionisolated",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "canonical",
                       "ImageOffer": "0001-com-ubuntu-server-focal",
                       "ImageSku": "20_04-lts-gen2",
                       "vmImageVersion": "latest",
-                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetResourceGroupName": "rg-salt-test-weu-01",
                       "vnetName": "myisolatedVNet",
                       "subnetName": "mySubnet",
                       "diskSizeGB": 128,
                       "osDiskType": "StandardSSD_LRS",
-                      "deploypublicIpAddress": true,
+                      "deploypublicIpAddress": false,
                       "vmExtension_CustomScript_deploy": true,
                       "vmExtension_CustomScript_commandToExecute": "sh ubuntuminion.sh",
                       "vmExtension_CustomScript_fileUris": [
@@ -136,6 +141,7 @@
         "vnets":{
           "value": [
             {
+              "resourceGroupName": "rg-salt-test-sce-01",
               "vnetName": "myVNet",
               "location": "swedencentral",
               "vnetIpAdressRanges": [
@@ -257,7 +263,9 @@
               ]
             },
             {
+              "resourceGroupName": "rg-salt-test-weu-01",
               "vnetName": "myisolatedVNet",
+              "vnetResourceGroupName": "rg-salt-test-01",
               "location": "westeurope",
               "vnetIpAdressRanges": [
                 "10.1.0.0/16"
