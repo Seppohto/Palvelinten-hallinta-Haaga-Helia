@@ -20,3 +20,4 @@ sudo systemctl enable salt-master && sudo systemctl start salt-master
 git clone https://github.com/Seppohto/Palvelinten-hallinta-Haaga-Helia
 sudo mkdir /srv/salt
 sudo cp -r Palvelinten-hallinta-Haaga-Helia/Salt_Azure_Practice_environment/salt/* /srv/salt/
+rm -rf Palvelinten-hallinta-Haaga-Helia
