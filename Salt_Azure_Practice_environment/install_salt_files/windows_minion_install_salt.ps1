@@ -2,7 +2,8 @@
 $url = "https://repo.saltproject.io/salt/py3/windows/latest/Salt-Minion-3006.0-Py3-AMD64-Setup.exe"
 $output = "C:\Temp\Salt-Minion-3006.0-Py3-AMD64-Setup.exe"
 $saltMaster = "ubuntumaster.swedencentral.cloudapp.azure.com"
-$minionName = "winminion-$env:COMPUTERNAME"
+$computername = $env:COMPUTERNAME
+$minionName = "windows-minion-" + $computername
 
 # Create Temp directory if it doesn't exist
 if (-not (Test-Path -Path "C:\Temp")) {
@@ -15,7 +16,7 @@ Invoke-WebRequest -Uri $url -OutFile $output
 
 # Install Salt Minion
 Write-Host "Installing Salt Minion..."
-Start-Process -FilePath $output -ArgumentList "/S /master=$saltMaster /minion-name=$minionName"
+Start-Process -FilePath $output -ArgumentList "/S /master=$saltMaster /minion-name=$minionName" -Wait
 
 # Remove the installer
 Write-Host "Cleaning up..."

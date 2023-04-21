@@ -18,4 +18,4 @@ sudo systemctl enable salt-master && sudo systemctl start salt-master
 # sudo systemctl enable salt-syndic && sudo systemctl start salt-syndic
 # sudo systemctl enable salt-api && sudo systemctl start salt-api
 git clone https://github.com/Seppohto/Palvelinten-hallinta-Haaga-Helia
-sudo cp Palvelinten-hallinta-Haaga-Helia/Salt_Azure_Practice_environment/salt/* /srv/salt/
+sudo cp -r Palvelinten-hallinta-Haaga-Helia/Salt_Azure_Practice_environment/salt/* /etc/salt/
