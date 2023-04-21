@@ -1,7 +1,6 @@
 targetScope = 'subscription'
 
-param rg object
-param location string
+param rg array
 param winservers array
 param linuxservers array
 @secure()
@@ -9,21 +8,21 @@ param adminpassword string
 param SSH_publicKey string = ''
 param vnets array
 
-module resourceGroupSalt 'modules/resourcegroup/rg.bicep' = {
+module resourceGroupSalt 'modules/resourcegroup/rg.bicep' = [ for (rg, index) in rg: {
   name: 'rg-salt-test-01'
   params: {
     name: rg.name
-    location: location
+    location: rg.location
     tags: rg.tags
   }
-}
+}]
 
 module vnet 'modules/vnets/vnet.bicep' = [ for (vnet, index) in vnets: {
   name: 'vnet-${index}'
-  scope: resourceGroup(rg.name)
+  scope: resourceGroup(vnet.rgName)
   params: {
     vnetName: vnet.vnetName
-    location: location
+    location: vnet.location
     subnetObjectsArray: vnet.subnetObjectsArray
     vnetIpAdressRanges: vnet.vnetIpAdressRanges
   }
@@ -34,13 +33,13 @@ module vnet 'modules/vnets/vnet.bicep' = [ for (vnet, index) in vnets: {
 
 module vmServerWindows 'modules/virtualmachine/vm-windows.bicep' = [ for (server, index) in winservers: {
   name: 'vm-windows-${index}'
-  scope: resourceGroup(rg.name)
+  scope: resourceGroup(server.rgName)
   params: {
     deploypublicIpAddress : server.deploypublicIpAddress
     vmAdminUsername : server.vmAdminUsername 
     vmAdminPassword : adminpassword
     VmSize : server.VmSize  
-    location : location 
+    location : server.location 
     vnetResourceGroupName : server.vnetResourceGroupName
     vnetName : server.vnetName
     subnetName : server.subnetName  
@@ -63,13 +62,13 @@ module vmServerWindows 'modules/virtualmachine/vm-windows.bicep' = [ for (server
 
 module vmServerlinux 'modules/virtualmachine/vm-linux.bicep' = [ for (server, index) in linuxservers: {
   name: 'vm-linux-${index}'
-  scope: resourceGroup(rg.name)
+  scope: resourceGroup(server.rgName)
   params: {
     deploypublicIpAddress : server.deploypublicIpAddress
     vmAdminUsername : server.vmAdminUsername 
     SSH_publicKey: SSH_publicKey
     VmSize : server.VmSize  
-    location : location 
+    location : server.location 
     vnetResourceGroupName : server.vnetResourceGroupName
     vnetName : server.vnetName
     subnetName : server.subnetName  

@@ -2,21 +2,29 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "location": {
-            "value": "swedencentral"
-        },
         "rg": {
-            "value": {
+            "value": [
+              {
                 "name": "rg-salt-test-01",
+                "location": "swedencentral",
                 "tags": {
                     "owner": "olli.uronen@gmail.fi"
                 }
-            }
+              },
+              {
+                "name": "rg-salt-test-02",
+                "location": "westeurope",
+                "tags": {
+                    "owner": "olli.uronen@gmail.fi"
+                }
+              }
+            ]
         },
         "winservers":{
             "value": [
                     {
                       "vmAdminUsername": "olli-admin",
+                      "location": "swedencentral",
                       "vmName": "winminion001",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "MicrosoftWindowsServer",
@@ -37,6 +45,7 @@
                     },
                     {
                       "vmAdminUsername": "olli-admin",
+                      "location": "westeurope",
                       "vmName": "winminion002",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "MicrosoftWindowsServer",
@@ -44,7 +53,7 @@
                       "ImageSku": "2019-Datacenter",
                       "vmImageVersion": "latest",
                       "vnetResourceGroupName": "rg-salt-test-01",
-                      "vnetName": "myVNet",
+                      "vnetName": "myisolatedVNet",
                       "subnetName": "mySubnet",
                       "diskSizeGB": 128,
                       "osDiskType": "StandardSSD_LRS",
@@ -61,6 +70,7 @@
             "value": [
                     {
                       "vmAdminUsername": "olli-admin",
+                      "location": "swedencentral",
                       "vmName": "ubuntumaster",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "Canonical",
@@ -81,6 +91,7 @@
                     },
                     {
                       "vmAdminUsername": "olli-admin",
+                      "location": "swedencentral",
                       "vmName": "ubuntuminion",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "canonical",
@@ -98,6 +109,27 @@
                       "vmExtension_CustomScript_fileUris": [
                         "https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/Salt_Azure_Practice_environment/install_salt_files/ubuntuminion.sh"
                         ]
+                    },
+                    {
+                      "vmAdminUsername": "olli-admin",
+                      "location": "westeurope",
+                      "vmName": "ubuntuminionisolated",
+                      "vmSize": "Standard_B2s",
+                      "ImagePublisher": "canonical",
+                      "ImageOffer": "0001-com-ubuntu-server-focal",
+                      "ImageSku": "20_04-lts-gen2",
+                      "vmImageVersion": "latest",
+                      "vnetResourceGroupName": "rg-salt-test-01",
+                      "vnetName": "myisolatedVNet",
+                      "subnetName": "mySubnet",
+                      "diskSizeGB": 128,
+                      "osDiskType": "StandardSSD_LRS",
+                      "deploypublicIpAddress": true,
+                      "vmExtension_CustomScript_deploy": true,
+                      "vmExtension_CustomScript_commandToExecute": "sh ubuntuminion.sh",
+                      "vmExtension_CustomScript_fileUris": [
+                        "https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/Salt_Azure_Practice_environment/install_salt_files/ubuntuminion.sh"
+                        ]
                     }
               ]
         },
@@ -105,6 +137,7 @@
           "value": [
             {
               "vnetName": "myVNet",
+              "location": "swedencentral",
               "vnetIpAdressRanges": [
                 "10.0.0.0/16"
               ],
@@ -195,6 +228,49 @@
                             "destinationAddressPrefix": "*"
                           }
                         }
+                      ],
+                      "tags": {
+                        "displayName": "mySubnet-NetworkSecurityGroup"
+                      }
+                    },
+                    "routeTable": {
+                      "deploy": false,
+                      "location": "swedencentral",
+                      "properties": {
+                        "routes": [
+                          {
+                            "name": "route1",
+                            "properties": {
+                              "addressPrefix": "10.1.0.0/16",
+                              "nextHopType": "VirtualAppliance",
+                              "nextHopIpAddress": "10.1.1.1"
+                            }
+                          }
+                        ]
+                      },
+                      "tags": {
+                        "displayName": "mySubnet-RouteTable"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "vnetName": "myisolatedVNet",
+              "location": "westeurope",
+              "vnetIpAdressRanges": [
+                "10.1.0.0/16"
+              ],
+              "subnetObjectsArray": [
+                {
+                  "name": "mySubnet",
+                  "properties": {
+                    "addressPrefix": "10.1.0.0/24",
+                    "networkSecurityGroup": {
+                      "deploy": false,
+                      "location": "westeurope",
+                      "nsgSecurityRulesArray": [
                       ],
                       "tags": {
                         "displayName": "mySubnet-NetworkSecurityGroup"
