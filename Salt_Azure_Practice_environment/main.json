@@ -17,7 +17,7 @@
             "value": [
                     {
                       "vmAdminUsername": "olli-admin",
-                      "vmName": "winminion",
+                      "vmName": "winminion001",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "MicrosoftWindowsServer",
                       "ImageOffer": "WindowsServer",
@@ -29,7 +29,7 @@
                       "diskSizeGB": 128,
                       "osDiskType": "StandardSSD_LRS",
                       "vmExtension_CustomScriptExtension_fileUris": [
-                        "https://github.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/blob/main/Salt_Azure_Practice_environment/install_salt_files/windows_minion_install_salt.ps1"
+                        "https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/Salt_Azure_Practice_environment/install_salt_files/windows_minion_install_salt.ps1"
                         ],
                       "vmExtension_CustomScriptExtension_commandToExecute": "powershell -ExecutionPolicy Unrestricted -File windows_minion_install_salt.ps1",
                       "vmExtension_CustomScriptExtension_deploy": true,
@@ -37,7 +37,7 @@
                     },
                     {
                       "vmAdminUsername": "olli-admin",
-                      "vmName": "winmaster",
+                      "vmName": "winminion002",
                       "vmSize": "Standard_B2s",
                       "ImagePublisher": "MicrosoftWindowsServer",
                       "ImageOffer": "WindowsServer",
@@ -49,9 +49,9 @@
                       "diskSizeGB": 128,
                       "osDiskType": "StandardSSD_LRS",
                       "vmExtension_CustomScriptExtension_fileUris": [
-                        "https://github.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/blob/main/Salt_Azure_Practice_environment/install_salt_files/windows_minion_install_salt.ps1"
+                        "https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/Salt_Azure_Practice_environment/install_salt_files/windows_minion_install_salt.ps1"
                         ],
-                      "vmExtension_CustomScriptExtension_commandToExecute": "powershell -ExecutionPolicy Unrestricted -File windows_master_install_salt.ps1",
+                      "vmExtension_CustomScriptExtension_commandToExecute": "powershell -ExecutionPolicy Unrestricted -File windows_minion_install_salt.ps1",
                       "vmExtension_CustomScriptExtension_deploy": true,
                       "deploypublicIpAddress": true
                     }
@@ -76,7 +76,7 @@
                       "vmExtension_CustomScript_deploy": true,
                       "vmExtension_CustomScript_commandToExecute": "sh ubuntumaster.sh",
                       "vmExtension_CustomScript_fileUris": [
-                        "https://github.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/blob/main/Salt_Azure_Practice_environment/install_salt_files/ubuntumaster.sh"
+                        "https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/Salt_Azure_Practice_environment/install_salt_files/ubuntumaster.sh"
                         ]
                     },
                     {
@@ -96,7 +96,7 @@
                       "vmExtension_CustomScript_deploy": true,
                       "vmExtension_CustomScript_commandToExecute": "sh ubuntuminion.sh",
                       "vmExtension_CustomScript_fileUris": [
-                        "https://github.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/blob/main/Salt_Azure_Practice_environment/install_salt_files/ubuntuminion.sh"
+                        "https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/Salt_Azure_Practice_environment/install_salt_files/ubuntuminion.sh"
                         ]
                     }
               ]
