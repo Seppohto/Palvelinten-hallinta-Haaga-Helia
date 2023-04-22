@@ -28,4 +28,4 @@ copy_hello_py:
 copy_hello_ps1:
   file.managed:
     - name: C:\Windows\System32\hello.ps1
-    - source: salt://windows/scriptshello.ps1
+    - source: salt://windows/scripts/hello.ps1
