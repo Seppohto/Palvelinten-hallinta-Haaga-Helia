@@ -1,5 +1,5 @@
 base:
   'linux*':
-    - ubuntu
+    - linux
   'windows*':
     - windows
