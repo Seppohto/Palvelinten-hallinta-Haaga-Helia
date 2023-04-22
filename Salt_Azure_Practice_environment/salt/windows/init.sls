@@ -5,17 +5,22 @@ ensure_parent_directory_exists:
 C:\tmp\infra-as-code:
   file.managed
 
-install_chocolatey:
-  cmd.run:
-    - name: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    - shell: powershell
-    - unless: "choco -v"
-    
+deskwin:
+  pkg.installed:
+    - pkgs:
+      - git
+      - python3_x64
+      - chrome
+      - chocolatey
+      - firefox
 
+choco:
+  chocolatey.installed:
+    - pkgs:
+      - notepadpluplus
+      - mremoteng
 
-
-
-
-
-
-
+install_ad_tools:
+  module.run:
+    - name: win_servermanager.install
+    - feature: RSAT-ADDS-Tools
