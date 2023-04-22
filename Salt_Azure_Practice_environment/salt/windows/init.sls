@@ -5,6 +5,10 @@ ensure_parent_directory_exists:
 C:\tmp\infra-as-code:
   file.managed
 
+packages;
+    pkg.installed:
+      - name: chocolatey
+
 choco:
   chocolatey.installed:
     - names:
