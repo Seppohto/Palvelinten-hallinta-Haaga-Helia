@@ -16,8 +16,10 @@ deskwin:
 
 choco:
   chocolatey.installed:
-    - notepadpluplus
-    - mremoteng
+    - name: notepadplusplus
+  chocolatey.installed:
+    - name: mremoteng
+
 
 install_ad_tools:
   module.run:
