@@ -172,7 +172,8 @@ For demonstration purposes i deployed one windows and one linux minion to anothe
 - windows-minion2
 
 ![resource groups sce](https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/viikko%204/2023-04-22%2012_57_48-rg-salt-test-sce-01%20-%20Microsoft%20Azure.png "rg1")
-[resource groups weu](https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/viikko%204/2023-04-22%2012_59_25-rg-salt-test-weu-01%20-%20Microsoft%20Azure.png "rg2")
+
+![resource groups weu](https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/viikko%204/2023-04-22%2012_59_25-rg-salt-test-weu-01%20-%20Microsoft%20Azure.png "rg2")
 
 
 ##### continue testing
