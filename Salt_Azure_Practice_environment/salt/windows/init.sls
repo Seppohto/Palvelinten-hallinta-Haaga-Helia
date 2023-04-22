@@ -5,18 +5,13 @@ ensure_parent_directory_exists:
 C:\tmp\infra-as-code:
   file.managed
 
-deskwin:
-  pkg.installed:
-    - pkgs:
-      - git
-      - python3_x64
-      - chrome
-      - chocolatey
-      - firefox
-
 choco:
   chocolatey.installed:
     - names:
+      - git
+      - python3
+      - googlechrome
+      - firefox
       - notepadplusplus
       - mremoteng
 
