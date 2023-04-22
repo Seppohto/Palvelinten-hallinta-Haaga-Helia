@@ -5,11 +5,6 @@ ensure_parent_directory_exists:
 C:\tmp\infra-as-code:
   file.managed
 
-install_python:
-  pkg.installed:
-    - pkgs:
-      - python
-
 choco:
   chocolatey.installed:
     - names:
