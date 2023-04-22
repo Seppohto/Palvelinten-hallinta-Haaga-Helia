@@ -90,14 +90,14 @@ sudo cp hello.py /c/Code/Palvelinten-hallinta-Haaga-Helia/Salt_Azure_Practice_en
 sudo cp hello.sh /c/Code/Palvelinten-hallinta-Haaga-Helia/Salt_Azure_Practice_environment/salt/scripts/linux
 ```
 
-waiiiit a minute. I think I can access the same filesystem from wsl.
+Waiiiit a minute. I think I can access the same filesystem from wsl.
 
 ```bash
 /usr/local/bin# sudo cp hello.sh /mnt/c/Code/Palvelinten-hallinta-Haaga-Helia/Salt_Azure_Practice_environment/salt/scripts/linux
 /usr/local/bin# sudo cp hello.py /mnt/c/Code/Palvelinten-hallinta-Haaga-Helia/Salt_Azure_Practice_environment/salt/scripts/linux
 ```
 
-so now the files are copied to git:
+So now the files are copied to git:
 - Salt_Azure_Practice_environment\salt\scripts\linux\hello.py
 - Salt_Azure_Practice_environment\salt\scripts\linux\hello.sh
 
@@ -108,7 +108,7 @@ so now the files are copied to git:
 3. Deploy the environment that installs windows and linux minions and linux master vm.
 During deployment the script installs the salt minions and a master and then it copies this git repo and copies the salt folder to the master computer /srv/salt/
 
-edit my ubuntu/init.sls files
+Edit my ubuntu/init.sls files
 ```
 hello_sh:
   file.managed:
@@ -122,16 +122,148 @@ hello_py:
     - source: salt://hello.py
     - mode: 755
 ```
-4. Once it's deployed. Access the master computer and accept the keys
+### set the scripts for minion servers to work for all
+4. Once environment is  deployed. Access the master computer and accept the keys
 connect to the server
 ```bash
 ssh olli-admin@ubuntumaster.swedencentral.cloudapp.azure.com
 ```
-accepts the keys and run the state
+Accepts the keys and run the state
 ```
 sudo salt-key -A
 sudo salt '*' state.apply scripts
 ```
-image.png
+That didnt work.
+
+So i changed the folder structure so that i now have scripts folder in the folder with init.sls and now the path finds it.
+
+```ini.sls
+hello_sh:
+  file.managed:
+    - name: /usr/local/bin/hello.sh
+    - source: salt://scripts/hello.sh
+    - mode: 755
+
+hello_py:
+  file.managed:
+    - name: /usr/local/bin/hello.py
+    - source: salt://scripts/hello.py
+    - mode: 755
+```
+
+#### Next testing that it works
+
+First i destroyed my environment and build it again so that i can test that everything works each time when deployed.
+
+Select my azure and deploy the environment took 5 min
+```
+az account login
+.\start.ps1
+```
+##### The Environment
+I deployed:
+- linux-master
+- linux-minion
+- windows-minion
+with public ips and to one environment, virtual network, subnet and region
+
+For demonstration purposes i deployed one windows and one linux minion to another region without public ip.
+- linux-minion2
+- windows-minion2
+
+![resource groups sce](https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/viikko3/2023-04-15%2008_04_04-Seppohto_summerofgit%20-%20Personal%20-%20Microsoft%E2%80%8B%20Edge.png "rg1")
+[resource groups weu](https://raw.githubusercontent.com/Seppohto/Palvelinten-hallinta-Haaga-Helia/main/viikko3/2023-04-15%2008_04_04-Seppohto_summerofgit%20-%20Personal%20-%20Microsoft%E2%80%8B%20Edge.png "rg2")
 
 
+##### continue testing
+Login
+
+i need to remove the previous key
+    ssh-keygen -f "/root/.ssh/known_hosts" -R "ubuntumaster.swedencentral.cloudapp.azure.com"
+then connect 
+    ssh olli-admin@ubuntumaster.swedencentral.cloudapp.azure.com
+
+```bash
+olli-admin@ubuntumaster:~$ sudo salt-key
+Accepted Keys:
+Denied Keys:
+Unaccepted Keys:
+linux-minion-ubuntuminion
+linux-minion-ubuntuminion2
+windows-minion-winminion1
+windows-minion-winminion2
+Rejected Keys:
+olli-admin@ubuntumaster:~$ sudo salt-key -A
+The following keys are going to be accepted:
+Unaccepted Keys:
+linux-minion-ubuntuminion
+linux-minion-ubuntuminion2
+windows-minion-winminion1
+windows-minion-winminion2
+Proceed? [n/Y] y
+Key for minion linux-minion-ubuntuminion accepted.
+Key for minion linux-minion-ubuntuminion2 accepted.
+Key for minion windows-minion-winminion1 accepted.
+Key for minion windows-minion-winminion2 accepted.
+```
+
+the  apply
+```
+sudo salt '*' state.apply
+```
+it didn't work because my source was wrong so i changed it from     - source: salt://scripts/hello.sh to     - source: salt://linux/scripts/hello.sh because the base is salt base folder /srv/salt/
+
+and apply again
+```
+sudo salt '*' state.apply
+```
+now test the hello.py and hello.sh but it would work right away. Only after I activate them with direct command they activate and work without the path. mystery
+``` bash
+olli-admin@ubuntumaster:~$ sudo salt 'l*' cmd.run 'hello.py'
+linux-minion-ubuntuminion2:
+    Minion did not return. [No response]
+    The minions may not have all finished running and any remaining minions will return upon completion. To look up the return data for this job later, run the following command:
+
+    salt-run jobs.lookup_jid 20230422134753943248
+linux-minion-ubuntuminion:
+    Minion did not return. [No response]
+    The minions may not have all finished running and any remaining minions will return upon completion. To look up the return data for this job later, run the following command:
+
+    salt-run jobs.lookup_jid 20230422134753943248
+ERROR: Minions returned with non-zero exit code
+olli-admin@ubuntumaster:~$ sudo salt 'l*' cmd.run 'ls -la /usr/local/bin/'
+linux-minion-ubuntuminion:
+    total 16
+    drwxr-xr-x  2 root root 4096 Apr 22 13:15 .
+    drwxr-xr-x 10 root root 4096 Apr 18 21:39 ..
+    -rwxr-xr-x  1 root root   44 Apr 22 13:15 hello.py
+    -rwxr-xr-x  1 root root   25 Apr 22 13:15 hello.sh
+linux-minion-ubuntuminion2:
+    total 16
+    drwxr-xr-x  2 root root 4096 Apr 22 13:15 .
+    drwxr-xr-x 10 root root 4096 Apr 18 21:39 ..
+    -rwxr-xr-x  1 root root   44 Apr 22 13:15 hello.py
+    -rwxr-xr-x  1 root root   25 Apr 22 13:15 hello.sh
+olli-admin@ubuntumaster:~$ sudo salt 'l*' cmd.run '/usr/local/bin/hello.sh'
+linux-minion-ubuntuminion:
+    shine
+linux-minion-ubuntuminion2:
+    shine
+olli-admin@ubuntumaster:~$ sudo salt 'l*' cmd.run '/usr/local/bin/hello.py'
+linux-minion-ubuntuminion:
+    hello world
+linux-minion-ubuntuminion2:
+    hello world
+olli-admin@ubuntumaster:~$ sudo salt 'l*' cmd.run 'hello.py'
+linux-minion-ubuntuminion:
+    hello world
+linux-minion-ubuntuminion2:
+    hello world
+olli-admin@ubuntumaster:~$ sudo salt 'l*' cmd.run 'hello.sh'
+linux-minion-ubuntuminion:
+    shine
+linux-minion-ubuntuminion2:
+    shine
+```
+
+####  Install a single binary program using Salt for minions.

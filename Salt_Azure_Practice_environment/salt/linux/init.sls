@@ -12,3 +12,7 @@ hello_py:
     - name: /usr/local/bin/hello.py
     - source: salt://linux/scripts/hello.py
     - mode: 755
+
+install_micro:
+  pkg.installed:
+    - name: micro
