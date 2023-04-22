@@ -16,9 +16,8 @@ deskwin:
 
 choco:
   chocolatey.installed:
-    - pkgs:
-      - notepadpluplus
-      - mremoteng
+    - notepadpluplus
+    - mremoteng
 
 install_ad_tools:
   module.run:
