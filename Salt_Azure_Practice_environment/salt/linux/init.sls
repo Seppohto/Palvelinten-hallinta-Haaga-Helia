@@ -16,3 +16,4 @@ hello_py:
 install_micro:
   pkg.installed:
     - name: micro
+
