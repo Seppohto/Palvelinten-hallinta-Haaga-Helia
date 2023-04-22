@@ -14,12 +14,11 @@ deskwin:
       - chocolatey
       - firefox
 
-
-chocolatey.installed:
-  - name: notepadplusplus
-chocolatey.installed:
-  - name: mremoteng
-
+choco:
+  chocolatey.installed:
+    - names:
+      - notepadplusplus
+      - mremoteng
 
 install_ad_tools:
   module.run:
