@@ -267,4 +267,50 @@ linux-minion-ubuntuminion2:
     shine
 ```
 
-####  Install a single binary program using Salt for minions.
+### Install a single binary program using Salt for minions.
+I'll use pkg.installed to install micro to linux machines
+
+install_micro:
+  pkg.installed:
+    - name: micro
+
+I destroyed the environment and deployed it again. This time hello.py and hello.sh worked out of the box.
+
+micro installation succeeded
+
+### install and control windows computers
+
+i install pakages
+
+so i update my windows init.sls
+```
+ensure_parent_directory_exists:
+  file.directory:
+    - name: C:\tmp
+
+C:\tmp\infra-as-code:
+  file.managed
+
+choco:
+  chocolatey.installed:
+    - names:
+      - git
+      - python3
+      - googlechrome
+      - firefox
+      - notepadplusplus
+      - mremoteng
+
+install_ad_tools:
+  module.run:
+    - name: win_servermanager.install
+    - feature: RSAT-ADDS-Tools
+
+```
+That worked. wrap.
+
+
+# Refrence
+
+https://terokarvinen.com/2018/control-windows-with-salt/
+
