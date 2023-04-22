@@ -23,7 +23,7 @@
         "winservers":{
             "value": [
                     {
-                      "vmName": "winminion001",
+                      "vmName": "winminion1",
                       "vmAdminUsername": "olli-admin",
                       "resourceGroupName": "rg-salt-test-sce-01",
                       "location": "swedencentral",
@@ -45,7 +45,7 @@
                       "deploypublicIpAddress": true
                     },
                     {
-                      "vmName": "winminion002",
+                      "vmName": "winminion2",
                       "resourceGroupName": "rg-salt-test-weu-01",
                       "vmAdminUsername": "olli-admin",
                       "location": "westeurope",
@@ -115,7 +115,7 @@
                         ]
                     },
                     {
-                      "vmName": "ubuntuminionisolated",
+                      "vmName": "ubuntuminion2",
                       "resourceGroupName": "rg-salt-test-weu-01",
                       "vmAdminUsername": "olli-admin",
                       "location": "westeurope",
