@@ -19,7 +19,7 @@ sudo systemctl enable salt-minion && sudo systemctl start salt-minion
 # sudo systemctl enable salt-api && sudo systemctl start salt-api
 
 # Variables
-master="ubuntumaster.swedencentral.cloudapp.azure.com"
+master="10.0.0.6"
 computerName='linux-minion-'$(hostname)
 echo "master: $master
 id: $computerName" | sudo tee /etc/salt/minion
