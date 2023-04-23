@@ -17,6 +17,9 @@ param ImageSku string = '2019-Datacenter'
 param vmImageVersion string = 'latest'
 param diskSizeGB int = 128
 
+// private ip related parameters
+param privateIPAddress string = ''
+
 // public ip related parameters
 param deploypublicIpAddress bool = false
 var publicIpAddressName = 'pip-${vmName}'
@@ -74,6 +77,7 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2022-07-01' = {
           subnet: {
             id: subnet.id
           }
+          privateIPAddress: privateIPAddress != '' ? privateIPAddress : null
         }
       }
     ]

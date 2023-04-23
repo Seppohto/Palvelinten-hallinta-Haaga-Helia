@@ -65,6 +65,7 @@ module vmServerlinux 'modules/virtualmachine/vm-linux.bicep' = [ for (server, in
   scope: resourceGroup(server.resourceGroupName)
   params: {
     deploypublicIpAddress : server.deploypublicIpAddress
+    privateIPAddress : server.privateIPAddress
     vmAdminUsername : server.vmAdminUsername 
     SSH_publicKey: SSH_publicKey
     VmSize : server.VmSize  

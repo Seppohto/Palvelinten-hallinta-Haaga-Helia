@@ -19,7 +19,7 @@ sudo systemctl enable salt-minion && sudo systemctl start salt-minion
 # sudo systemctl enable salt-api && sudo systemctl start salt-api
 
 # Variables
-master="10.0.0.6"
+master="ubuntumaster.swedencentral.cloudapp.azure.com"
 computerName='linux-minion-'$(hostname)
 echo "master: $master
 id: $computerName" | sudo tee /etc/salt/minion
@@ -28,9 +28,3 @@ id: $computerName" | sudo tee /etc/salt/minion
 sudo service salt-minion restart
 
 echo "Salt Minion installed and configured successfully."
-
-# sudo echo "
-# master:
-#   - winmaster.swedencentral.cloudapp.azure.com
-#   - ubuntumaster.swedencentral.cloudapp.azure.com">/etc/salt/minion
-# sudo service salt-minion restart
