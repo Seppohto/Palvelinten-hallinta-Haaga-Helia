@@ -21,9 +21,9 @@ hello_py:
 
 ensure_string_hellopy_in_file:
   file.line:
-    - name: /path/to/your/file
+    - name: /usr/local/bin/hello.py
     - mode: ensure
-    - content: 'alias hellosh="hello.sh"'
+    - content: 'alias hellopy="hello.py"'
 
 install_micro:
   pkg.installed:
