@@ -11,7 +11,8 @@ C:\tmp\infra-as-code:
 chocolatey:
   module.run:
     - name: chocolatey.bootstrap
-    - unless: choco -v
+    - unless: Test-Path -Path "C:\ProgramData\Chocolatey\bin\chocolatey.exe"
+    - shell: powershell
 
 # Install Chocolatey packages
 choco:

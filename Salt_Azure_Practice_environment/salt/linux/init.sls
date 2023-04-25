@@ -7,10 +7,9 @@ hello_sh:
     - source: salt://linux/scripts/hello.sh
     - mode: 755
 
-ensure_string_hellosh_in_file:
-  file.line:
+append_string_hellosh_in_file:
+  file.append:
     - name: /usr/local/bin/hello.sh
-    - mode: ensure
     - content: 'alias hellosh="hello.sh"'
 
 hello_py:
@@ -19,10 +18,9 @@ hello_py:
     - source: salt://linux/scripts/hello.py
     - mode: 755
 
-ensure_string_hellopy_in_file:
-  file.line:
+append_string_hellopy_in_file:
+  file.append:
     - name: /usr/local/bin/hello.py
-    - mode: ensure
     - content: 'alias hellopy="hello.py"'
 
 install_micro:
