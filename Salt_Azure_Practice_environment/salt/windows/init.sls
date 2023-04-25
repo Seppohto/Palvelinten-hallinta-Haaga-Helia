@@ -1,14 +1,19 @@
+# Ensure parent directory exists
 ensure_parent_directory_exists:
   file.directory:
     - name: C:\tmp
 
+# Manage a practice file
 C:\tmp\infra-as-code:
   file.managed
 
+# Install Chocolatey
 chocolatey:
   module.run:
     - name: chocolatey.bootstrap
+    - unless: choco -v
 
+# Install Chocolatey packages
 choco:
   chocolatey.installed:
     - names:
@@ -20,16 +25,22 @@ choco:
     - require:
       - module: chocolatey
 
+# Install AD tools
 install_ad_tools:
   module.run:
     - name: win_servermanager.install
     - feature: RSAT-ADDS-Tools
+    - unless: (Get-WindowsFeature -Name RSAT-ADDS-Tools).Installed -eq $True
+    - shell: powershell
+
+# Copy hello.py
 
 copy_hello_py:
   file.managed:
     - name: C:\Windows\System32\hello.py
     - source: salt://windows/scripts/hello.py
 
+# Copy hello.ps1
 copy_hello_ps1:
   file.managed:
     - name: C:\Windows\System32\hello.ps1
