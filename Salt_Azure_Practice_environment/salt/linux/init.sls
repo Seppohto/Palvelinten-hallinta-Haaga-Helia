@@ -9,7 +9,7 @@ hello_sh:
 
 append_string_hellosh_in_file:
   file.append:
-    - name: /usr/local/bin/hello.sh
+    - name: /etc/bash.bashrc
     - text: 'alias hellosh="hello.sh"'
 
 hello_py:
@@ -20,7 +20,7 @@ hello_py:
 
 append_string_hellopy_in_file:
   file.append:
-    - name: /usr/local/bin/hello.py
+    - name: /etc/bash.bashrc
     - text: 'alias hellopy="hello.py"'
 
 install_micro:
