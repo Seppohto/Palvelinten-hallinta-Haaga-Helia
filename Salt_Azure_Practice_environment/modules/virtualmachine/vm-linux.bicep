@@ -70,13 +70,13 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2022-07-01' = {
       {
         name: 'ipConfig1'
         properties: {
-          privateIPAllocationMethod: 'Dynamic'
           publicIPAddress: deploypublicIpAddress ? {
             id: publicIpAddress.id
           } : null
           subnet: {
             id: subnet.id
           }
+          privateIPAllocationMethod: privateIPAddress != '' ? 'Static' : 'Dynamic'
           privateIPAddress: privateIPAddress != '' ? privateIPAddress : null
         }
       }
