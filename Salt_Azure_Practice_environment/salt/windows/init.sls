@@ -3,7 +3,7 @@ ensure_parent_directory_exists:
   file.directory:
     - name: C:\tmp
 
-# Manage a practice file
+# Manage a test file
 C:\tmp\infra-as-code:
   file.managed
 
@@ -11,7 +11,7 @@ C:\tmp\infra-as-code:
 chocolatey:
   module.run:
     - name: chocolatey.bootstrap
-    - unless: Test-Path -Path "C:\ProgramData\Chocolatey\bin\chocolatey.exe"
+    - unless: choco -v
     - shell: powershell
 
 # Install Chocolatey packages
