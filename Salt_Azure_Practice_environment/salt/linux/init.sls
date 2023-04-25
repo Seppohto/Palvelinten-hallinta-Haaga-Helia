@@ -9,7 +9,7 @@ hello_sh:
 
 ensure_string_hellosh_in_file:
   file.line:
-    - name: /path/to/your/file
+    - name: /usr/local/bin/hello.sh
     - mode: ensure
     - content: 'alias hellosh="hello.sh"'
 
