@@ -10,7 +10,7 @@ hello_sh:
 append_string_hellosh_in_file:
   file.append:
     - name: /usr/local/bin/hello.sh
-    - content: 'alias hellosh="hello.sh"'
+    - text: 'alias hellosh="hello.sh"'
 
 hello_py:
   file.managed:
@@ -21,7 +21,7 @@ hello_py:
 append_string_hellopy_in_file:
   file.append:
     - name: /usr/local/bin/hello.py
-    - content: 'alias hellopy="hello.py"'
+    - text: 'alias hellopy="hello.py"'
 
 install_micro:
   pkg.installed:
