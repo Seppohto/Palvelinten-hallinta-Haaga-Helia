@@ -7,6 +7,11 @@ hello_sh:
     - source: salt://linux/scripts/hello.sh
     - mode: 755
 
+hellosh_symlink:
+  file.symlink:
+    - name: /usr/local/bin/hellosh
+    - target: /usr/local/bin/hello.sh
+
 append_string_hellosh_in_file:
   file.append:
     - name: /etc/bash.bashrc
@@ -17,6 +22,11 @@ hello_py:
     - name: /usr/local/bin/hello.py
     - source: salt://linux/scripts/hello.py
     - mode: 755
+
+hellopy_symlink:
+  file.symlink:
+    - name: /usr/local/bin/hellopy
+    - target: /usr/local/bin/hello.py
 
 append_string_hellopy_in_file:
   file.append:

@@ -94,7 +94,7 @@
                       "privateIPAddress": "10.0.0.6"
                     },
                     {
-                      "vmName": "ubuntuminion",
+                      "vmName": "ubuntuminion1",
                       "resourceGroupName": "rg-salt-test-sce-01",
                       "vmAdminUsername": "olli-admin",
                       "location": "swedencentral",
