@@ -5,11 +5,9 @@ ensure_parent_directory_exists:
 C:\tmp\infra-as-code:
   file.managed
 
-deskwin:
-  pkg.installed:
-    - pkgs:
-      - python3_x64
-      - chocolatey
+chocolatey:
+  module.run:
+    - name: chocolatey.bootstrap
 
 choco:
   chocolatey.installed:
@@ -19,6 +17,8 @@ choco:
       - firefox
       - notepadplusplus
       - mremoteng
+    - require:
+      - module: chocolatey
 
 install_ad_tools:
   module.run:
