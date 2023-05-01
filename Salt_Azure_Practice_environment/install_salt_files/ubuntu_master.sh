@@ -1,6 +1,8 @@
 #Run the following commands to import the Salt Project repository key, and to create the apt sources list file:
 mkdir /etc/apt/keyrings
 
+# here document
+
 sudo curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/salt/py3/ubuntu/20.04/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg
 echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/20.04/amd64/latest focal main" | sudo tee /etc/apt/sources.list.d/salt.list
 #Run sudo apt-get update to update your packages.

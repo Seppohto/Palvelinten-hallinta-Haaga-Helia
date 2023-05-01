@@ -1,22 +1,20 @@
+# Manage a test file
 /tmp/infra-as-code:
   file.managed
-  
+
+# Copy hello.sh
 hello_sh:
   file.managed:
     - name: /usr/local/bin/hello.sh
     - source: salt://linux/scripts/hello.sh
     - mode: '0755'
 
-hellosh_symlink:
+# I found this when the other thing didn't work
+/usr/local/bin/hellosh:
   file.symlink:
-    - name: /usr/local/bin/hellosh
     - target: /usr/local/bin/hello.sh
 
-append_string_hellosh_in_file:
-  file.append:
-    - name: /etc/bash.bashrc
-    - text: 'alias hellosh="hello.sh"'
-
+# Copy hello.py
 hello_py:
   file.managed:
     - name: /usr/local/bin/hello.py
@@ -24,32 +22,28 @@ hello_py:
     - mode: '0755'
 
 # I found this when the other thing didn't work
-hellopy_symlink:
+/usr/local/bin/hellopy:
   file.symlink:
-    - name: /usr/local/bin/hellopy
     - target: /usr/local/bin/hello.py
 
-# this didn't work
-append_string_hellopy_in_file:
-  file.append:
-    - name: /etc/bash.bashrc
-    - text: 'alias hellopy="hello.py"'
-
+# make sure that curl is installed
 install_dependencies:
   pkg.installed:
     - pkgs:
       - curl
       - xclip
 
+# download the binary micro
 download_micro:
   cmd.run:
     - name: 'curl https://getmic.ro | bash'
     - cwd: '/tmp'
-    - require:
-      - pkg: install_dependencies
+    - unless: 'micro --version'
 
+# make micro usable everywhere
 move_micro:
   cmd.run:
     - name: 'mv /tmp/micro /usr/local/bin/'
     - require:
       - cmd: download_micro
+    - unless: 'micro --version'

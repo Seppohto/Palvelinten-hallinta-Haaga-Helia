@@ -11,7 +11,7 @@ C:\tmp\infra-as-code:
 chocolatey:
   module.run:
     - name: chocolatey.bootstrap
-    - unless: choco -v
+    - unless: choco --version
     - shell: powershell
 
 # Install Chocolatey packages
@@ -27,15 +27,13 @@ choco:
       - module: chocolatey
 
 # Install AD tools
-install_ad_tools:
+win_servermanager.install:
   module.run:
-    - name: win_servermanager.install
     - feature: RSAT-ADDS-Tools
     - unless: (Get-WindowsFeature -Name RSAT-ADDS-Tools).Installed -eq $True
     - shell: powershell
 
 # Copy hello.py
-
 copy_hello_py:
   file.managed:
     - name: C:\Windows\System32\hello.py
