@@ -27,11 +27,12 @@ choco:
       - module: chocolatey
 
 # Install AD tools
-win_servermanager.install:
+install_feature:
   module.run:
+    - name: win_servermanager.install
     - feature: RSAT-ADDS-Tools
-    - unless: (Get-WindowsFeature -Name RSAT-ADDS-Tools).Installed -eq $True
-    - shell: powershell
+    - unless: salt:win_servermanager.is_installed RSAT-ADDS-Tools
+
 
 # Copy hello.py
 copy_hello_py:
