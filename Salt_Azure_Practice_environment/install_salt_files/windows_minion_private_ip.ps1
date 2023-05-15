@@ -1,6 +1,6 @@
 # Variables
 $url = "https://repo.saltproject.io/salt/py3/windows/latest/Salt-Minion-3006.1-Py3-AMD64-Setup.exe"
-$output = "C:\Temp\Salt-Minion-3006.0-Py3-AMD64-Setup.exe"
+$output = "C:\Temp\Salt-Minion-3006.1-Py3-AMD64-Setup.exe"
 $saltMaster = "10.0.0.6"
 $computername = $env:COMPUTERNAME
 $minionName = "windows-minion-" + $computername
